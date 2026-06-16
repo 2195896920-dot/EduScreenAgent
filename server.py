@@ -228,7 +228,8 @@ def init_knowledge_base():
                         "metadata": {"category": category, "source": file}
                     })
 
-    chroma_client = chromadb.Client()
+
+    chroma_client = chromadb.PersistentClient(path="./chroma_db")
     try:
         chroma_client.delete_collection(name="agent_docs")
     except:
