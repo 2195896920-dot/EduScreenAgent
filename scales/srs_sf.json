@@ -1,0 +1,38 @@
+{
+  "name": "SRS-SF",
+  "description": "儿童社交反应量表简版，适用于4-18岁，评估社交沟通能力",
+  "age_range": [4, 18],
+  "concerns": ["社交", "沟通", "ASD", "孤独症"],
+  "total_questions": 18,
+  "scoring": {
+    "method": "total_sum_multiplier",
+    "multiplier": 1.25,
+    "rounding": "floor",
+    "risk_levels": {
+      "green": {"max_score": 49, "label": "正常", "description": "标准分50分以下"},
+      "yellow": {"min_score": 50, "max_score": 59, "label": "轻度社交异常", "description": "标准分50-59分"},
+      "orange": {"min_score": 60, "max_score": 69, "label": "中度社交异常", "description": "标准分60-69分"},
+      "red": {"min_score": 70, "label": "重度社交异常", "description": "标准分70分以上"}
+    }
+  },
+  "questions": [
+    {"id": 1, "text": "只能理解谈话的字面意思，不能理解其真正含义", "options": [{"label":"没有","score":1},{"label":"有时","score":2},{"label":"经常","score":3},{"label":"总是","score":4}]},
+    {"id": 2, "text": "与同伴交流时显得笨拙（例如在交谈中不懂得轮流说话）", "options": [{"label":"没有","score":1},{"label":"有时","score":2},{"label":"经常","score":3},{"label":"总是","score":4}]},
+    {"id": 3, "text": "能理解别人的语调及面部表情的意思", "options": [{"label":"没有","score":4},{"label":"有时","score":3},{"label":"经常","score":2},{"label":"总是","score":1}], "note": "反向计分：社交能力越好分越低"},
+    {"id": 4, "text": "避免目光接触或有不正常的目光接触", "options": [{"label":"没有","score":1},{"label":"有时","score":2},{"label":"经常","score":3},{"label":"总是","score":4}]},
+    {"id": 5, "text": "即使很努力，仍很难与别人做朋友", "options": [{"label":"没有","score":1},{"label":"有时","score":2},{"label":"经常","score":3},{"label":"总是","score":4}]},
+    {"id": 6, "text": "存在不同寻常的感官兴趣（如喃喃自语或旋转物体），或特别的玩玩具方式", "options": [{"label":"没有","score":1},{"label":"有时","score":2},{"label":"经常","score":3},{"label":"总是","score":4}]},
+    {"id": 7, "text": "较之其他儿童，他/她很难接受常规的改变", "options": [{"label":"没有","score":1},{"label":"有时","score":2},{"label":"经常","score":3},{"label":"总是","score":4}]},
+    {"id": 8, "text": "被其他儿童认为古怪或奇特", "options": [{"label":"没有","score":1},{"label":"有时","score":2},{"label":"经常","score":3},{"label":"总是","score":4}]},
+    {"id": 9, "text": "不能维持正常的交谈", "options": [{"label":"没有","score":1},{"label":"有时","score":2},{"label":"经常","score":3},{"label":"总是","score":4}]},
+    {"id": 10, "text": "与同龄人交流有困难", "options": [{"label":"没有","score":1},{"label":"有时","score":2},{"label":"经常","score":3},{"label":"总是","score":4}]},
+    {"id": 11, "text": "有不寻常的、狭隘的兴趣", "options": [{"label":"没有","score":1},{"label":"有时","score":2},{"label":"经常","score":3},{"label":"总是","score":4}]},
+    {"id": 12, "text": "富有想象力，会假装（不脱离实际的）", "options": [{"label":"没有","score":4},{"label":"有时","score":3},{"label":"经常","score":2},{"label":"总是","score":1}], "note": "反向计分"},
+    {"id": 13, "text": "有重复的奇怪的行为，如拍手或摇晃", "options": [{"label":"没有","score":1},{"label":"有时","score":2},{"label":"经常","score":3},{"label":"总是","score":4}]},
+    {"id": 14, "text": "不能直接回答问题或答非所问", "options": [{"label":"没有","score":1},{"label":"有时","score":2},{"label":"经常","score":3},{"label":"总是","score":4}]},
+    {"id": 15, "text": "用奇怪的语调与人谈话（如像机器人说话或像在演讲）", "options": [{"label":"没有","score":1},{"label":"有时","score":2},{"label":"经常","score":3},{"label":"总是","score":4}]},
+    {"id": 16, "text": "对事物的部分过于专注而忽视了整体，例如要求描述故事情节时，他/她会描述故事人物穿的衣服", "options": [{"label":"没有","score":1},{"label":"有时","score":2},{"label":"经常","score":3},{"label":"总是","score":4}]},
+    {"id": 17, "text": "固执，要改变他/她的想法很难", "options": [{"label":"没有","score":1},{"label":"有时","score":2},{"label":"经常","score":3},{"label":"总是","score":4}]},
+    {"id": 18, "text": "做事的原因很特别或不合逻辑", "options": [{"label":"没有","score":1},{"label":"有时","score":2},{"label":"经常","score":3},{"label":"总是","score":4}]}
+  ]
+}

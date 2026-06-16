@@ -1,0 +1,36 @@
+{
+  "name": "M-CHAT-R",
+  "description": "改良版幼儿孤独症筛查量表-修订版，适用于16-30个月儿童",
+  "total_questions": 23,
+  "scoring": {
+    "green": {"max_score": 1, "label": "低风险"},
+    "yellow": {"min_score": 2, "max_score": 7, "label": "中风险"},
+    "red": {"min_score": 8, "label": "高风险"},
+    "critical_rule": "关键项阳性≥2时，直接高风险"
+  },
+  "questions": [
+    {"id": 1, "text": "如果您指向房间另一头的玩具，您的孩子会看过去吗？", "type": "forward", "score_yes": 0, "score_no": 1, "critical": false},
+    {"id": 2, "text": "您是否曾经怀疑过您的孩子可能有听力问题？", "type": "reverse", "score_yes": 1, "score_no": 0, "critical": true},
+    {"id": 3, "text": "您的孩子玩过假装游戏吗？（例如假装从空杯子喝水）", "type": "forward", "score_yes": 0, "score_no": 1, "critical": false},
+    {"id": 4, "text": "您的孩子喜欢攀爬物体吗？", "type": "forward", "score_yes": 0, "score_no": 1, "critical": false},
+    {"id": 5, "text": "您的孩子会在眼睛附近做出奇怪的手指动作吗？", "type": "reverse", "score_yes": 1, "score_no": 0, "critical": true},
+    {"id": 6, "text": "您的孩子会用食指指着东西来要求得到它吗？", "type": "forward", "score_yes": 0, "score_no": 1, "critical": false},
+    {"id": 7, "text": "您的孩子会用食指指着东西来向您展示有趣的事物吗？", "type": "forward", "score_yes": 0, "score_no": 1, "critical": true},
+    {"id": 8, "text": "您的孩子对其他孩子感兴趣吗？", "type": "forward", "score_yes": 0, "score_no": 1, "critical": false},
+    {"id": 9, "text": "您的孩子会把东西拿给您看或举起来让您看吗？", "type": "forward", "score_yes": 0, "score_no": 1, "critical": true},
+    {"id": 10, "text": "当您叫孩子的名字时，他/她会回头看您吗？", "type": "forward", "score_yes": 0, "score_no": 1, "critical": false},
+    {"id": 11, "text": "当您对孩子微笑时，他/她会微笑回应吗？", "type": "forward", "score_yes": 0, "score_no": 1, "critical": false},
+    {"id": 12, "text": "您的孩子会因为日常噪音而感到不安吗？", "type": "reverse", "score_yes": 1, "score_no": 0, "critical": false},
+    {"id": 13, "text": "您的孩子会走路吗？", "type": "forward", "score_yes": 0, "score_no": 1, "critical": true},
+    {"id": 14, "text": "当您看着孩子的脸和他/她说话时，他/她会看着您的眼睛吗？", "type": "forward", "score_yes": 0, "score_no": 1, "critical": false},
+    {"id": 15, "text": "您的孩子会试图模仿您做的事吗？", "type": "forward", "score_yes": 0, "score_no": 1, "critical": true},
+    {"id": 16, "text": "如果您转头看某样东西，您的孩子会跟着看过去吗？", "type": "forward", "score_yes": 0, "score_no": 1, "critical": false},
+    {"id": 17, "text": "您的孩子会试图引起您的注意去看他/她自己吗？", "type": "forward", "score_yes": 0, "score_no": 1, "critical": false},
+    {"id": 18, "text": "当您告诉孩子去做某事时，他/她能理解吗？", "type": "forward", "score_yes": 0, "score_no": 1, "critical": false},
+    {"id": 19, "text": "当发生新事物时，您的孩子会看您的脸来判断您的感受吗？", "type": "forward", "score_yes": 0, "score_no": 1, "critical": false},
+    {"id": 20, "text": "您的孩子喜欢运动活动吗？（例如摇摆、弹跳）", "type": "forward", "score_yes": 0, "score_no": 1, "critical": false},
+    {"id": 21, "text": "您的孩子会无缘无故地盯着某处看吗？", "type": "reverse", "score_yes": 1, "score_no": 0, "critical": false},
+    {"id": 22, "text": "您的孩子会在不熟悉的情况下看您的脸来确认您的反应吗？", "type": "forward", "score_yes": 0, "score_no": 1, "critical": false},
+    {"id": 23, "text": "您的孩子会对旋转的物体着迷吗？（例如风扇、车轮）", "type": "reverse", "score_yes": 1, "score_no": 0, "critical": false}
+  ]
+}

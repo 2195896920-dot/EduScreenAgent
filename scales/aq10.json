@@ -1,0 +1,28 @@
+{
+  "name": "AQ-10",
+  "description": "自闭症光谱量表儿童短版，适用于4-11岁无学习障碍儿童",
+  "age_range": [4, 11],
+  "concerns": ["自闭症", "ASD", "社交"],
+  "total_questions": 10,
+  "scoring": {
+    "method": "total_sum",
+    "risk_levels": {
+      "green": {"max_score": 5, "label": "低风险", "description": "总分≤5分"},
+      "yellow": {"min_score": 6, "max_score": 6, "label": "边界值", "description": "总分=6分，建议进一步观察"},
+      "red": {"min_score": 7, "label": "高风险", "description": "总分≥7分，建议专业评估"}
+    },
+    "note": "AQ-10计分规则存在多种版本，此版本为简化版，结果仅供参考"
+  },
+  "questions": [
+    {"id": 1, "text": "他/她经常不经意地注意一些细小的声音，有别于其他人", "options": [{"label":"十分同意","score":1},{"label":"有些同意","score":1},{"label":"有些不同意","score":0},{"label":"十分不同意","score":0}]},
+    {"id": 2, "text": "他/她通常多集中于整个画面，而不是小细节", "options": [{"label":"十分同意","score":0},{"label":"有些同意","score":0},{"label":"有些不同意","score":1},{"label":"十分不同意","score":1}]},
+    {"id": 3, "text": "在一个社交活动之中，他/她可以轻易地掌握几个不同的对话交流情况", "options": [{"label":"十分同意","score":0},{"label":"有些同意","score":0},{"label":"有些不同意","score":1},{"label":"十分不同意","score":1}]},
+    {"id": 4, "text": "他/她能轻易地切换不同的活动", "options": [{"label":"十分同意","score":0},{"label":"有些同意","score":0},{"label":"有些不同意","score":1},{"label":"十分不同意","score":1}]},
+    {"id": 5, "text": "他不懂如何与同伴在对话之中保持着交流", "options": [{"label":"十分同意","score":1},{"label":"有些同意","score":1},{"label":"有些不同意","score":0},{"label":"十分不同意","score":0}]},
+    {"id": 6, "text": "他/她擅于社交闲聊", "options": [{"label":"十分同意","score":0},{"label":"有些同意","score":0},{"label":"有些不同意","score":1},{"label":"十分不同意","score":1}]},
+    {"id": 7, "text": "当阅读一个故事时，他/她发现很难找出故事人物的感受或意图", "options": [{"label":"十分同意","score":1},{"label":"有些同意","score":1},{"label":"有些不同意","score":0},{"label":"十分不同意","score":0}]},
+    {"id": 8, "text": "在幼稚园时的他/她曾喜爱和其他小朋友玩一些涉及扮演的游戏", "options": [{"label":"十分同意","score":0},{"label":"有些同意","score":0},{"label":"有些不同意","score":1},{"label":"十分不同意","score":1}]},
+    {"id": 9, "text": "他/她按着一个人的表情便很容易猜测他人的想法或感受", "options": [{"label":"十分同意","score":0},{"label":"有些同意","score":0},{"label":"有些不同意","score":1},{"label":"十分不同意","score":1}]},
+    {"id": 10, "text": "他/他发现很难结交新朋友", "options": [{"label":"十分同意","score":1},{"label":"有些同意","score":1},{"label":"有些不同意","score":0},{"label":"十分不同意","score":0}]}
+  ]
+}

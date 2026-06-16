@@ -1,0 +1,31 @@
+{
+  "name": "ABC-改良",
+  "description": "孤独症行为量表改良版，适用于18个月-6岁儿童，筛查孤独症谱系障碍",
+  "age_range": [1.5, 6],
+  "concerns": ["自闭症", "孤独症", "ASD", "社交", "行为", "语言", "感统", "感知觉", "刻板"],
+  "total_questions": 15,
+  "scoring": {
+    "method": "simple",
+    "risk_levels": {
+      "green": {"max_score": 6, "label": "🟢 筛查阴性"},
+      "red": {"min_score": 7, "label": "🔴 筛查阳性"}
+    }
+  },
+  "questions": [
+    {"id": 1, "text": "不愿被抱起或在腿上上下跳，如身体僵直，哭闹", "category": "社会交往", "options": [{"label":"无此表现","score":0},{"label":"有此表现","score":1}]},
+    {"id": 2, "text": "回避与别人（包括亲人）的眼光进行接触", "category": "社会交往", "options": [{"label":"无此表现","score":0},{"label":"有此表现","score":1}]},
+    {"id": 3, "text": "似乎不在听人讲话，有种心不在焉的感觉", "category": "语言交流", "options": [{"label":"无此表现","score":0},{"label":"有此表现","score":1}]},
+    {"id": 4, "text": "极少用微笑来应答别人的笑容", "category": "社会交往", "options": [{"label":"无此表现","score":0},{"label":"有此表现","score":1}]},
+    {"id": 5, "text": "对母亲的亲昵行为没有反应", "category": "社会交往", "options": [{"label":"无此表现","score":0},{"label":"有此表现","score":1}]},
+    {"id": 6, "text": "游戏时不模仿其他儿童", "category": "社会交往", "options": [{"label":"无此表现","score":0},{"label":"有此表现","score":1}]},
+    {"id": 7, "text": "对其他的小朋友不感兴趣，不会注意其他小朋友并与之交流", "category": "社会交往", "options": [{"label":"无此表现","score":0},{"label":"有此表现","score":1}]},
+    {"id": 8, "text": "对自己的名字无反应", "category": "语言交流", "options": [{"label":"无此表现","score":0},{"label":"有此表现","score":1}]},
+    {"id": 9, "text": "常用尖叫或哭闹来表达他的意愿", "category": "语言交流", "options": [{"label":"无此表现","score":0},{"label":"有此表现","score":1}]},
+    {"id": 10, "text": "强迫性行为，对环境和日常生活规律的改变产生强烈的反应，如家中的家具摆放改变，出门一定要走同一条路线，如果改变就会大哭等", "category": "兴趣与行为", "options": [{"label":"无此表现","score":0},{"label":"有此表现","score":1}]},
+    {"id": 11, "text": "对一些不作为玩具的物品特别感兴趣，以至痴迷，如调羹、细绳、塑料袋", "category": "兴趣与行为", "options": [{"label":"无此表现","score":0},{"label":"有此表现","score":1}]},
+    {"id": 12, "text": "喜欢长时间自身旋转或观看旋转的东西", "category": "兴趣与行为", "options": [{"label":"无此表现","score":0},{"label":"有此表现","score":1}]},
+    {"id": 13, "text": "做出重复、刻板的动作，如长时间地凝视、拍手、摇动、旋转等", "category": "兴趣与行为", "options": [{"label":"无此表现","score":0},{"label":"有此表现","score":1}]},
+    {"id": 14, "text": "有一些与常人不同的感觉偏好，如喜欢光滑的模板、柔软的毛巾或汽车的刹车声、闪烁的东西等", "category": "感知觉", "options": [{"label":"无此表现","score":0},{"label":"有此表现","score":1}]},
+    {"id": 15, "text": "对痛不敏感，如摔伤、割破或注射", "category": "感知觉", "options": [{"label":"无此表现","score":0},{"label":"有此表现","score":1}]}
+  ]
+}

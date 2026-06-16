@@ -1,0 +1,66 @@
+{
+  "name": "SNAP-IV",
+  "description": "ADHD過動兒家長量表，適用於6-13歲，評估注意力不足、多動衝動及對立違抗行為",
+  "age_range": [6, 13],
+  "concerns": ["注意力", "多动", "冲动", "对立违抗", "ADHD"],
+  "total_questions": 26,
+  "scoring": {
+    "method": "subscale_threshold",
+    "subscales": {
+      "attention": {
+        "label": "注意力不足",
+        "indices": [0, 1, 2, 3, 4, 5, 6, 7, 8],
+        "threshold": 6,
+        "score_type": "gte2_count",
+        "description": "9题中≥6题得分≥2分（还算不少或非常的多）"
+      },
+      "hyperactivity": {
+        "label": "多动冲动",
+        "indices": [9, 10, 11, 12, 13, 14, 15, 16, 17],
+        "threshold": 6,
+        "score_type": "gte2_count",
+        "description": "9题中≥6题得分≥2分"
+      },
+      "oppositional": {
+        "label": "对立违抗",
+        "indices": [18, 19, 20, 21, 22, 23, 24, 25],
+        "threshold": 4,
+        "score_type": "gte2_count",
+        "description": "8题中≥4题得分≥2分"
+      }
+    },
+    "risk_levels": {
+      "green": {"condition": "无子量表达标", "label": "无明显ADHD倾向", "advice": "建议保持观察，定期关注学习表现"},
+      "yellow": {"condition": "任一子量表达标", "label": "有ADHD倾向，建议进一步评估", "advice": "建议前往儿童心智科或发育行为科进行专业评估"},
+      "red": {"condition": "两个及以上子量表达标", "label": "高度疑似ADHD，建议就医", "advice": "建议尽快就医，进行全面的神经心理评估"}
+    }
+  },
+  "questions": [
+    {"id": 1, "text": "无法专注于细节的部分，或在做学校作业或其他活动时，出现粗心的错误", "subscale": "attention", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 2, "text": "很难持续专注于工作或游戏活动", "subscale": "attention", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 3, "text": "看起来好像没有在听别人对他(她)说话的内容", "subscale": "attention", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 4, "text": "没有办法遵循指示，也无法完成学校作业或家事(并不是由于对立性行为或无法了解指示的内容)", "subscale": "attention", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 5, "text": "组织规划工作及活动有困难", "subscale": "attention", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 6, "text": "逃避，或表达不愿意，或有困难于需要持续性动脑的工作(例如学校作业或家庭作业)", "subscale": "attention", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 7, "text": "会弄丢工作上或活动所必须的东西(例如学校作业、铅笔、书、工具或玩具)", "subscale": "attention", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 8, "text": "很容易受外在刺激影响而分心", "subscale": "attention", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 9, "text": "在日常生活中忘东忘西的", "subscale": "attention", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 10, "text": "在座位上玩弄手脚或不好好坐着", "subscale": "hyperactivity", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 11, "text": "在教室或其他必须持续坐着的场合，会任意离开座位", "subscale": "hyperactivity", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 12, "text": "在不适当的场合，乱跑或爬高爬低", "subscale": "hyperactivity", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 13, "text": "很难安静地玩或参与休闲活动", "subscale": "hyperactivity", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 14, "text": "总是一直在动或是像被马达所驱动", "subscale": "hyperactivity", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 15, "text": "话很多", "subscale": "hyperactivity", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 16, "text": "在问题还没问完前就急着回答", "subscale": "hyperactivity", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 17, "text": "难以排队或等待轮流", "subscale": "hyperactivity", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 18, "text": "打断或干扰别人(例如：插嘴或打断别人的游戏)", "subscale": "hyperactivity", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 19, "text": "发脾气", "subscale": "oppositional", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 20, "text": "与大人争论", "subscale": "oppositional", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 21, "text": "主动地反抗或拒绝大人的要求与规定", "subscale": "oppositional", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 22, "text": "故意去干扰别人（故意惹惱人）", "subscale": "oppositional", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 23, "text": "因自己犯的错或不当的行为而怪罪别人", "subscale": "oppositional", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 24, "text": "很敏感的或很容易被别人激怒", "subscale": "oppositional", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 25, "text": "生气的及怨恨的", "subscale": "oppositional", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]},
+    {"id": 26, "text": "恶意的或有报复心的", "subscale": "oppositional", "options": [{"label":"完全没有","score":0},{"label":"有一点点","score":1},{"label":"还算不少","score":2},{"label":"非常的多","score":3}]}
+  ]
+}

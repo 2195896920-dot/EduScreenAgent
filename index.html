@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>EduScreenAgent</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #1e1e1e; color: #d4d4d4; height: 100vh; display: flex; }
+        
+        /* 侧边栏 */
+        #sidebar { width: 220px; background: #252526; border-right: 1px solid #3e3e42; display: flex; flex-direction: column; flex-shrink: 0; }
+        #sidebar-header { padding: 12px 16px; border-bottom: 1px solid #3e3e42; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+        #sidebar-header button { padding: 4px 10px; font-size: 12px; background: #0e639c; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        #session-list { flex: 1; overflow-y: auto; padding: 8px 0; }
+        .session-item { padding: 8px 16px; cursor: pointer; font-size: 13px; border-bottom: 1px solid #3e3e42; color: #ccc; display: flex; justify-content: space-between; align-items: center; }
+        .session-item:hover { background: #2a2d2e; }
+        .session-item.active { background: #094771; color: white; }
+        .session-item .delete-btn { color: #858585; padding: 2px 6px; font-size: 12px; background: transparent; border: none; cursor: pointer; border-radius: 3px; }
+        .session-item .delete-btn:hover { background: #c83b3b; color: white; }
+
+        /* 主区域 */
+        #main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+        #header { background: #2d2d30; padding: 12px 20px; border-bottom: 1px solid #3e3e42; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+        #chat { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+        .msg { max-width: 85%; padding: 12px 16px; border-radius: 8px; font-size: 14px; line-height: 1.6; word-wrap: break-word; }
+        .user { align-self: flex-end; background: #0e639c; color: white; }
+        .bot { align-self: flex-start; background: #252526; border: 1px solid #3e3e42; }
+        .bot p { margin: 6px 0; }
+        .bot h1, .bot h2, .bot h3, .bot h4 { margin: 12px 0 6px; color: #4fc1ff; }
+        .bot ul, .bot ol { margin: 6px 0 6px 20px; }
+        .bot li { margin: 3px 0; }
+        .bot code { background: #3c3c3c; padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 13px; }
+        .bot pre { background: #1e1e1e; padding: 12px; border-radius: 6px; overflow-x: auto; margin: 8px 0; }
+        .bot pre code { background: transparent; padding: 0; }
+        .bot table { border-collapse: collapse; margin: 8px 0; width: 100%; }
+        .bot th, .bot td { border: 1px solid #3e3e42; padding: 6px 10px; text-align: left; }
+        .bot th { background: #2d2d30; font-weight: 600; }
+        .bot hr { border: none; border-top: 1px solid #3e3e42; margin: 12px 0; }
+        .bot blockquote { border-left: 3px solid #0e639c; margin: 8px 0; padding-left: 12px; color: #858585; }
+        .bot mjx-container { color: #d4d4d4; font-size: 105%; }
+        
+        /* 评估卡片 */
+        .assessment-card { align-self: flex-start; background: #1e1e1e; border: 1px solid #0e639c; border-radius: 12px; padding: 0; width: 100%; max-width: 520px; overflow: hidden; }
+        .assessment-header { background: #0e639c; color: white; padding: 10px 16px; font-size: 14px; font-weight: 600; }
+        .assessment-body { padding: 20px; }
+        .assessment-progress { height: 4px; background: #3e3e42; border-radius: 2px; margin-bottom: 16px; overflow: hidden; }
+        .assessment-progress-fill { height: 100%; background: #4fc1ff; transition: width 0.3s; }
+        .assessment-question { font-size: 16px; line-height: 1.6; margin-bottom: 16px; }
+        .assessment-critical { color: #c83b3b; font-size: 12px; margin-left: 6px; }
+        .assessment-options { display: flex; gap: 12px; }
+        .assessment-options button { flex: 1; padding: 12px; background: #3c3c3c; border: 2px solid #3e3e42; color: #ccc; border-radius: 8px; cursor: pointer; font-size: 15px; transition: all 0.2s; }
+        .assessment-options button:hover { border-color: #0e639c; background: #2a2d2e; }
+        .assessment-options button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .assessment-result { padding: 16px; }
+        .risk-green { color: #4caf50; }
+        .risk-yellow { color: #ffc107; }
+        .risk-red { color: #f44336; }
+        .assessment-report { background: #252526; border-radius: 8px; padding: 12px; margin-top: 12px; font-size: 13px; line-height: 1.8; }
+        .assessment-disclaimer { margin-top: 12px; font-size: 11px; color: #858585; }
+        .assessment-actions { display: flex; gap: 8px; margin-top: 12px; }
+        .assessment-actions button { padding: 8px 16px; background: #0e639c; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; }
+        
+        #input-area { background: #2d2d30; border-top: 1px solid #3e3e42; padding: 12px 20px; display: flex; gap: 10px; }
+        input { flex: 1; padding: 10px; background: #3c3c3c; border: 1px solid #3e3e42; color: #ccc; border-radius: 4px; outline: none; font-size: 14px; }
+        button { padding: 10px 20px; background: #0e639c; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+        button:hover { background: #1177bb; }
+        .loading { color: #858585; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <div id="sidebar-header">
+            <span>💬 会话</span>
+            <button onclick="newChat()">＋ 新建</button>
+        </div>
+        <div id="session-list"></div>
+    </div>
+
+    <div id="main">
+        <div id="header">
+            <span>🎓 EduScreenAgent</span>
+            <span style="font-size:12px;color:#858585;">特殊教育智能助手</span>
+        </div>
+        <div id="chat"></div>
+        <div id="input-area">
+            <input id="input" type="text" placeholder="输入消息，按回车发送...（例如：我想给孩子做筛查）" />
+            <button onclick="send()">发送</button>
+        </div>
+    </div>
+
+    <script>
+        const chat = document.getElementById('chat');
+        const input = document.getElementById('input');
+        let currentSessionId = '';
+        let sessionsList = [];
+        const BASE_URL = window.location.origin;
+        let currentAssessmentId = '';  // 当前正在进行的评估
+
+        // ================== 工具函数 ==================
+        function addMsg(text, cls) {
+            const div = document.createElement('div');
+            div.className = 'msg ' + cls;
+            if (cls === 'bot' && window.marked && window.DOMPurify) {
+                const rawHtml = marked.parse(text);
+                div.innerHTML = DOMPurify.sanitize(rawHtml);
+                if (window.MathJax && window.MathJax.typesetPromise) {
+                    MathJax.typesetPromise([div]).catch(err => console.log('MathJax error:', err));
+                }
+            } else {
+                div.textContent = text;
+            }
+            chat.appendChild(div);
+            chat.scrollTop = chat.scrollHeight;
+            return div;
+        }
+
+        function saveLastSession(id) {
+            localStorage.setItem('lastSessionId', id);
+        }
+        function getLastSession() {
+            return localStorage.getItem('lastSessionId');
+        }
+
+        // ================== 评估卡片 ==================
+        function renderAssessmentCard(assessment) {
+    const old = document.getElementById('assessment-card');
+    if (old) old.remove();
+
+    const card = document.createElement('div');
+    card.className = 'msg assessment-card';
+    card.id = 'assessment-card';
+    
+    const q = assessment.first_question;
+    const scaleInfo = assessment.selected_scales ? 
+        `<div style="font-size:12px;color:#4fc1ff;margin-bottom:8px;">📋 评估组合：${assessment.selected_scales.join(' → ')}</div>` : '';
+    
+    card.innerHTML = `
+        <div class="assessment-header">🎓 特需儿童入学能力评估</div>
+        <div class="assessment-body">
+            ${scaleInfo}
+            <div class="assessment-progress">
+                <div class="assessment-progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="assessment-question" id="q-text">
+                [${q.progress.current}/${q.progress.total}] ${q.text}
+                ${q.is_critical ? '<span class="assessment-critical">【关键项】</span>' : ''}
+            </div>
+            <div class="assessment-options" id="q-options">
+                ${renderOptions(q.options)}
+            </div>
+            <div id="scale-change-msg" style="display:none;color:#4fc1ff;font-size:13px;margin-top:8px;"></div>
+        </div>
+    `;
+    chat.appendChild(card);
+    chat.scrollTop = chat.scrollHeight;
+    currentAssessmentId = assessment.assessment_id;
+}
+
+function renderOptions(options) {
+    if (!options || options.length === 0) {
+        return `
+            <button onclick="submitAssessmentAnswer('yes')" id="btn-0">✅ 是</button>
+            <button onclick="submitAssessmentAnswer('no')" id="btn-1">❌ 否</button>
+        `;
+    }
+    return options.map((opt, idx) => 
+        `<button onclick="submitAssessmentAnswer('${idx}')" id="btn-${idx}">${opt.label}</button>`
+    ).join('');
+}
+
+        function updateAssessmentCard(question, progress, message) {
+    const card = document.getElementById('assessment-card');
+    if (!card) return;
+    
+    const pct = (progress.current / progress.total) * 100;
+    const qText = card.querySelector('#q-text');
+    const qOpts = card.querySelector('#q-options');
+    const progressFill = card.querySelector('.assessment-progress-fill');
+    const msgDiv = card.querySelector('#scale-change-msg');
+    
+    progressFill.style.width = pct + '%';
+    qText.innerHTML = `[${progress.current}/${progress.total}] ${question.text}${question.is_critical ? '<span class="assessment-critical">【关键项】</span>' : ''}`;
+    qOpts.innerHTML = renderOptions(question.options);
+    
+    if (message) {
+        msgDiv.style.display = 'block';
+        msgDiv.textContent = '➡️ ' + message;
+    } else {
+        msgDiv.style.display = 'none';
+    }
+    
+    chat.scrollTop = chat.scrollHeight;
+}
+
+function showScaleChange(message) {
+    const card = document.getElementById('assessment-card');
+    if (!card) return;
+    const msgDiv = card.querySelector('#scale-change-msg');
+    msgDiv.style.display = 'block';
+    msgDiv.textContent = '➡️ ' + message;
+}
+
+async function submitAssessmentAnswer(answer) {
+    if (!currentAssessmentId) return;
+    
+    const buttons = document.querySelectorAll('.assessment-options button');
+    buttons.forEach(b => b.disabled = true);
+
+    try {
+        const res = await fetch(`${BASE_URL}/assessment/${currentAssessmentId}/answer`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({answer})
+        });
+        const data = await res.json();
+        
+        if (data.error) {
+            alert(data.error);
+            buttons.forEach(b => b.disabled = false);
+            return;
+        }
+
+        if (data.status === 'completed') {
+            showAssessmentResult(data.report);
+        } else if (data.status === 'scale_change') {
+            showScaleChange(data.message);
+            updateAssessmentCard(data.question, data.progress);
+        } else {
+            updateAssessmentCard(data.question, data.progress);
+        }
+    } catch (e) {
+        alert('提交失败：' + e.message);
+        buttons.forEach(b => b.disabled = false);
+    }
+}
+
+       function showAssessmentResult(report) {
+    const card = document.getElementById('assessment-card');
+    if (!card) return;
+    
+    const riskClass = 'risk-' + report.risk_level;
+    const scalesHtml = report.scales.map(s => 
+        `<div style="margin:4px 0;">• ${s.scale_name}: ${s.risk_name}</div>`
+    ).join('');
+    
+    const suggestion = report.class_suggestion || {};
+    
+    card.innerHTML = `
+        <div class="assessment-header">✅ 综合评估完成</div>
+        <div class="assessment-result">
+            <div style="font-size: 20px; font-weight: 600; margin-bottom: 8px;" class="${riskClass}">
+                ${report.risk_name === 'red' ? '🔴 高风险' : report.risk_name === 'yellow' ? '🟡 中风险' : report.risk_name === 'green' ? '🟢 低风险' : '🟡 中风险'}
+            </div>
+            <div style="color: #858585; font-size: 13px; margin-bottom: 8px;">
+                儿童：${report.child.name}，${report.child.age}岁<br>
+                主诉：${report.child.concerns || '全面筛查'}
+            </div>
+            <div style="margin: 8px 0; font-size: 13px;">
+                <strong>【量表结果】</strong>
+                ${scalesHtml}
+            </div>
+            <div style="margin: 8px 0; font-size: 13px; border-left: 3px solid #0e639c; padding-left: 10px;">
+                <strong>【分班建议】</strong> ${suggestion.class_type || ''}<br>
+                <span style="color:#858585;">${suggestion.reason || ''}</span><br>
+                <span style="color:#858585;">支持策略：${suggestion.support || ''}</span>
+            </div>
+            <div class="assessment-report">${report.report_text}</div>
+            <div class="assessment-disclaimer">
+                ⚠️ 本评估仅为筛查工具，不能替代专业医学诊断。
+            </div>
+            <div class="assessment-actions">
+                <button onclick="askInterpretation()">💬 请帮我解读</button>
+                <button onclick="removeAssessmentCard()">关闭</button>
+            </div>
+        </div>
+    `;
+    chat.scrollTop = chat.scrollHeight;
+    currentAssessmentId = '';
+}
+
+        function removeAssessmentCard() {
+            const card = document.getElementById('assessment-card');
+            if (card) card.remove();
+            currentAssessmentId = '';
+        }
+
+        async function submitAssessmentAnswer(answer) {
+            if (!currentAssessmentId) return;
+            
+            const btnYes = document.getElementById('btn-yes');
+            const btnNo = document.getElementById('btn-no');
+            if (btnYes) btnYes.disabled = true;
+            if (btnNo) btnNo.disabled = true;
+
+            try {
+                const res = await fetch(`${BASE_URL}/assessment/${currentAssessmentId}/answer`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({answer})
+                });
+                const data = await res.json();
+                
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+
+                if (data.status === 'completed') {
+                    showAssessmentResult(data.report);
+                } else {
+                    updateAssessmentCard(data.question, data.progress);
+                }
+            } catch (e) {
+                alert('提交失败：' + e.message);
+            }
+        }
+
+        function askInterpretation() {
+            input.value = '请帮我解读刚才的评估结果';
+            send();
+        }
+
+        // ================== 会话管理 ==================
+        async function loadSessionList() {
+            try {
+                const res = await fetch(`${BASE_URL}/sessions`);
+                const data = await res.json();
+                sessionsList = data.sessions;
+                renderSessionList();
+            } catch (e) {
+                console.error('加载会话列表失败:', e);
+            }
+        }
+
+        function renderSessionList() {
+            const container = document.getElementById('session-list');
+            container.innerHTML = '';
+            sessionsList.forEach(sid => {
+                const item = document.createElement('div');
+                item.className = 'session-item';
+                if (sid === currentSessionId) item.classList.add('active');
+                item.innerHTML = `<span>${sid}</span>`;
+                const delBtn = document.createElement('span');
+                delBtn.className = 'delete-btn';
+                delBtn.textContent = '✕';
+                delBtn.onclick = async (e) => {
+                    e.stopPropagation();
+                    if (confirm('确定删除该会话吗？')) await deleteSession(sid);
+                };
+                item.appendChild(delBtn);
+                item.onclick = () => switchSession(sid);
+                container.appendChild(item);
+            });
+        }
+
+        async function switchSession(sid) {
+            if (sid === currentSessionId) return;
+            currentSessionId = sid;
+            saveLastSession(sid);
+            try {
+                const res = await fetch(`${BASE_URL}/sessions/${sid}`);
+                const data = await res.json();
+                chat.innerHTML = '';
+                if (data.messages) {
+                    data.messages.forEach(msg => {
+                        if (msg.role === 'user') addMsg('👤 ' + msg.content, 'user');
+                        else if (msg.role === 'assistant') addMsg(msg.content, 'bot');
+                    });
+                }
+            } catch (e) {
+                addMsg('⚠️ 无法加载该会话的消息', 'bot');
+            }
+            renderSessionList();
+        }
+
+        async function newChat() {
+            currentSessionId = '';
+            chat.innerHTML = '';
+            addMsg('🤖 你好！我是 EduScreenAgent，爱华小学特殊教育智能助手。我可以帮您：\n\n1. 解答特殊教育、融合教育、孤独症等相关问题\n2. 为孩子做入学能力筛查评估（M-CHAT-R 量表）\n\n请随时向我提问！', 'bot');
+            localStorage.removeItem('lastSessionId');
+            await loadSessionList();
+        }
+
+        async function deleteSession(sid) {
+            try {
+                await fetch(`${BASE_URL}/sessions/${sid}`, { method: 'DELETE' });
+                if (currentSessionId === sid) {
+                    currentSessionId = '';
+                    chat.innerHTML = '';
+                }
+                await loadSessionList();
+                if (currentSessionId === '' && sessionsList.length > 0) {
+                    switchSession(sessionsList[0]);
+                }
+            } catch (e) {
+                console.error('删除会话失败:', e);
+            }
+        }
+
+        // ================== 发送消息 ==================
+        async function send() {
+            const text = input.value.trim();
+            if (!text) return;
+            addMsg('👤 ' + text, 'user');
+            input.value = '';
+
+            const loading = document.createElement('div');
+            loading.className = 'msg bot loading';
+            loading.textContent = '🤖 思考中...';
+            chat.appendChild(loading);
+
+            try {
+                const res = await fetch(`${BASE_URL}/chat`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ message: text, session_id: currentSessionId })
+                });
+                const contentType = res.headers.get('content-type') || '';
+                if (!contentType.includes('application/json')) {
+                    const raw = await res.text();
+                    loading.remove();
+                    addMsg('❌ Server returned non-JSON:\n' + raw.substring(0, 300), 'bot');
+                    return;
+                }
+                const data = await res.json();
+                loading.remove();
+
+                if (data.error && !data.reply) {
+                    addMsg('❌ 后端错误：' + data.error, 'bot');
+                } else {
+                    addMsg(data.reply || '（无回复内容）', 'bot');
+                }
+
+                // 检测是否触发了评估
+                if (data.assessment && data.assessment.first_question) {
+    renderAssessmentCard({
+        ...data.assessment,
+        selected_scales: data.assessment.selected_scales || []
+    });
+}
+
+                if (data.session_id) {
+                    if (currentSessionId !== data.session_id) {
+                        currentSessionId = data.session_id;
+                        saveLastSession(currentSessionId);
+                        if (!sessionsList.includes(data.session_id)) {
+                            sessionsList.push(data.session_id);
+                        }
+                        renderSessionList();
+                    }
+                }
+            } catch (err) {
+                loading.remove();
+                addMsg('❌ Error: ' + err.message, 'bot');
+            }
+        }
+
+        input.addEventListener('keypress', e => { if (e.key === 'Enter') send(); });
+
+        // ================== 初始化 ==================
+        async function initApp() {
+            await loadSessionList();
+            const lastSid = getLastSession();
+            if (lastSid && sessionsList.includes(lastSid)) {
+                await switchSession(lastSid);
+            } else if (sessionsList.length > 0) {
+                await switchSession(sessionsList[0]);
+            } else {
+                newChat();
+            }
+        }
+
+        initApp();
+    </script>
+</body>
+</html>

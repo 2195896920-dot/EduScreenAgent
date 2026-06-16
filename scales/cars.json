@@ -1,0 +1,31 @@
+{
+  "name": "CARS",
+  "description": "克式孤独症行为量表，适用于2-15岁，筛查孤独症倾向",
+  "age_range": [2, 15],
+  "concerns": ["孤独症", "ASD", "社交", "行为"],
+  "total_questions": 14,
+  "scoring": {
+    "method": "total_with_frequency",
+    "risk_levels": {
+      "green": {"max_score": 6, "label": "无孤独症倾向", "description": "总分<<7分"},
+      "yellow": {"min_score": 7, "max_score": 13, "label": "可能有孤独症倾向", "description": "总分7-13分，或总分≥14但经常项<<6"},
+      "red": {"min_score": 14, "label": "有孤独症倾向", "description": "总分≥14分且经常项≥6项"}
+    }
+  },
+  "questions": [
+    {"id": 1, "text": "不易与别人混在一起玩", "options": [{"label":"从不","score":0},{"label":"偶尔","score":1},{"label":"经常","score":2}]},
+    {"id": 2, "text": "听而不闻，好像是聋子", "options": [{"label":"从不","score":0},{"label":"偶尔","score":1},{"label":"经常","score":2}]},
+    {"id": 3, "text": "教他学什么，他强烈反抗，如拒绝模仿、说话或做动作", "options": [{"label":"从不","score":0},{"label":"偶尔","score":1},{"label":"经常","score":2}]},
+    {"id": 4, "text": "不顾危险", "options": [{"label":"从不","score":0},{"label":"偶尔","score":1},{"label":"经常","score":2}]},
+    {"id": 5, "text": "不能接受日常习惯的变化", "options": [{"label":"从不","score":0},{"label":"偶尔","score":1},{"label":"经常","score":2}]},
+    {"id": 6, "text": "以手势表达需要", "options": [{"label":"从不","score":0},{"label":"偶尔","score":1},{"label":"经常","score":2}]},
+    {"id": 7, "text": "莫名其妙的笑", "options": [{"label":"从不","score":0},{"label":"偶尔","score":1},{"label":"经常","score":2}]},
+    {"id": 8, "text": "不喜欢被人拥抱", "options": [{"label":"从不","score":0},{"label":"偶尔","score":1},{"label":"经常","score":2}]},
+    {"id": 9, "text": "不停地动，坐不住，活动量大", "options": [{"label":"从不","score":0},{"label":"偶尔","score":1},{"label":"经常","score":2}]},
+    {"id": 10, "text": "不望对方的脸，避免视线的接触", "options": [{"label":"从不","score":0},{"label":"偶尔","score":1},{"label":"经常","score":2}]},
+    {"id": 11, "text": "过渡偏爱某些物品", "options": [{"label":"从不","score":0},{"label":"偶尔","score":1},{"label":"经常","score":2}]},
+    {"id": 12, "text": "喜欢旋转的东西", "options": [{"label":"从不","score":0},{"label":"偶尔","score":1},{"label":"经常","score":2}]},
+    {"id": 13, "text": "反复又反复做些怪异的动作或玩耍", "options": [{"label":"从不","score":0},{"label":"偶尔","score":1},{"label":"经常","score":2}]},
+    {"id": 14, "text": "对周围漠不关心", "options": [{"label":"从不","score":0},{"label":"偶尔","score":1},{"label":"经常","score":2}]}
+  ]
+}
